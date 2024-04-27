@@ -20,7 +20,7 @@ export default function Introduction() {
     };
 
     const handleGoBack = () => {
-        setSelectBtn(true); // Set selectBtn to true to show the initial select template button
+        setSelectBtn(true);
     };
 
     return (
@@ -89,7 +89,7 @@ export default function Introduction() {
                                     onClick={handleGoBack}
                                     rounded={'full'}
                                     px={6}
-                                    className='mb-4 ml-4'
+                                    className='mb-4 ml-4 gb'
                                     colorScheme={'teal'}
                                     bg={'#38B2AC'}
                                     _hover={{ bg: '#319795' }}
