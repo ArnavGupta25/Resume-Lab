@@ -1,4 +1,5 @@
 /* introduction.css */
+
 body {
     font-family: "Poppins", sans-serif;
 }
@@ -48,6 +49,11 @@ body {
 .cont {
     height: 80vh;
     padding: 20px;
+}
+
+/* Remove space between image and template */
+img {
+    margin-bottom: 0;
 }
 
 /* Hover Effects for Templates */
