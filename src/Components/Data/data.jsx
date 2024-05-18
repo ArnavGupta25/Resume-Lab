@@ -181,8 +181,10 @@ export default function Data() {
                                         id={i}
                                         src={item.imageSrc}
                                         alt={item.imageAlt}
-                                        transition="box-shadow 0.2s ease-in-out"
-                                        _hover={{ boxShadow: "lg" }}
+                                        width="100%" // ensure the image width is fixed
+                                        height="auto" // ensure the image height adjusts proportionally
+                                        transition="box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out"
+                                        _hover={{ boxShadow: "lg", transform: "scale(1.02)" }} // slight scale to enhance the shadow effect
                                     />
                                 </Box>
                                 <Box className="text" textAlign="center">
