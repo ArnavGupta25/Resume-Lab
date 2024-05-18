@@ -1,6 +1,6 @@
 import { Box, Flex, HStack, IconButton, useDisclosure, useColorMode, useColorModeValue, Stack, Button } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Link as ReachLink, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import logo from './../../Assets/logo.png';
 import { useContext } from 'react';
 import ResumeContext from '../../Context/ResumeContext';
@@ -10,6 +10,11 @@ export default function Navbar() {
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
+
+    const handleNavigation = (route, callback) => {
+        callback();
+        navigate(route);
+    };
 
     const handleProtectedRoute = (route) => {
         if (!signedin) {
@@ -25,53 +30,50 @@ export default function Navbar() {
         <>
             <Box id='navbar' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <ReachLink to='/' onClick={(e)=>{
+                    <Box as="button" onClick={() => handleNavigation('/', () => {
                         setShowComponent(false);
                         setSelectBtn(true);
                         setSelectedData(null);
-                    }}>
+                    })}>
                         <Box><img style={{ height: '44px' }} className='logo' src={logo} alt="logo" /></Box>
-                    </ReachLink>
+                    </Box>
 
                     <HStack spacing={8} alignItems={'center'}>
                         <HStack
                             as={'nav'}
                             spacing={4}
                             display={{ base: 'none', md: 'flex' }}>
-                            <ReachLink onClick={()=>{
+                            <Box as="button" onClick={() => handleNavigation('/', () => {
                                 setShowComponent(false);
                                 setSelectBtn(true);
                                 setSelectedData(null);
-                            }} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/'} >Home </ReachLink>
-                            <ReachLink onClick={()=>{setSelectedData(null)}} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/about'}> About</ReachLink>
+                            })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Home</Box>
+                            <Box as="button" onClick={() => handleNavigation('/about', () => {
+                                setSelectedData(null);
+                            })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>About</Box>
                             <Box as="button" onClick={() => handleProtectedRoute('/data')} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>My Resumes</Box>
                             {
                                 !signedin && (
                                     <>
-                                        <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/login'} onClick={
-                                            (e)=>{
-                                                setSignup(false);
-                                                setSelectedData(null);
-                                            }
-                                        }> Login</ReachLink>
-                                        <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/login'} onClick={
-                                            (e)=>{
-                                                setSignup(true);
-                                                setSelectedData(null);
-                                            }
-                                        }> Signup</ReachLink>
+                                        <Box as="button" onClick={() => handleNavigation('/login', () => {
+                                            setSignup(false);
+                                            setSelectedData(null);
+                                        })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Login</Box>
+                                        <Box as="button" onClick={() => handleNavigation('/login', () => {
+                                            setSignup(true);
+                                            setSelectedData(null);
+                                        })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Signup</Box>
                                     </>
                                 )
                             }
                             {
                                 signedin && (
-                                    <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/'} onClick={
-                                        (e)=>{
-                                            setSignedin(false);
-                                            localStorage.removeItem('user');
-                                            setSelectedData(null);
-                                        }
-                                    }> Logout</ReachLink>
+                                    <Box as="button" onClick={() => {
+                                        setSignedin(false);
+                                        localStorage.removeItem('user');
+                                        setSelectedData(null);
+                                        navigate('/');
+                                    }} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Logout</Box>
                                 )
                             }
                         </HStack>
@@ -92,40 +94,37 @@ export default function Navbar() {
                 {isOpen ? (
                     <Box pb={4} display={{ md: 'none' }}>
                         <Stack as={'nav'} spacing={4}>
-                            <ReachLink onClick={()=>{
+                            <Box as="button" onClick={() => handleNavigation('/', () => {
                                 setShowComponent(false);
                                 setSelectBtn(true);
                                 setSelectedData(null);
-                            }} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/'} >Home </ReachLink>
-                            <ReachLink onClick={()=>{setSelectedData(null)}} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/about'}> About</ReachLink>
+                            })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Home</Box>
+                            <Box as="button" onClick={() => handleNavigation('/about', () => {
+                                setSelectedData(null);
+                            })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>About</Box>
                             <Box as="button" onClick={() => handleProtectedRoute('/data')} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>My Resumes</Box>
                             {
                                 !signedin && (
                                     <>
-                                        <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/login'} onClick={
-                                            (e)=>{
-                                                setSignup(false);
-                                                setSelectedData(null);
-                                            }
-                                        }> Login</ReachLink>
-                                        <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/login'} onClick={
-                                            (e)=>{
-                                                setSignup(true);
-                                                setSelectedData(null);
-                                            }
-                                        }> Signup</ReachLink>
+                                        <Box as="button" onClick={() => handleNavigation('/login', () => {
+                                            setSignup(false);
+                                            setSelectedData(null);
+                                        })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Login</Box>
+                                        <Box as="button" onClick={() => handleNavigation('/login', () => {
+                                            setSignup(true);
+                                            setSelectedData(null);
+                                        })} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Signup</Box>
                                     </>
                                 )
                             }
                             {
                                 signedin && (
-                                    <ReachLink px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }} to={'/'} onClick={
-                                        (e)=>{
-                                            setSignedin(false);
-                                            localStorage.removeItem('user');
-                                            setSelectedData(null);
-                                        }
-                                    }> Logout</ReachLink>
+                                    <Box as="button" onClick={() => {
+                                        setSignedin(false);
+                                        localStorage.removeItem('user');
+                                        setSelectedData(null);
+                                        navigate('/');
+                                    }} px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'gray.200' }}>Logout</Box>
                                 )
                             }
                         </Stack>
