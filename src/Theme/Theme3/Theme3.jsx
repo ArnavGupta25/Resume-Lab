@@ -10,11 +10,11 @@ import "./theme3.css";
 import ResumeContext from "../../Context/ResumeContext";
 
 const Theme3 = (props) => {
-  const { componentRef, themeData } = props;
+  const { componentRef } = props;
+  const { checkProj, checkWork, checkAward, themeData } = useContext(ResumeContext);
   const { name, address, phone, email, profile, summary, skill } =
     themeData.personalData;
 
-  const { checkProj, checkWork, checkAward } = useContext(ResumeContext);
   const { projectTitles, projectDesc } = themeData.projectData;
   const { educationTitles, educationDesc } = themeData.educationData;
   const { workTitles, workDesc } = themeData.workData;
@@ -73,34 +73,31 @@ const Theme3 = (props) => {
                 </Text>
               </Box>
             </Box>
-{!checkWork && <>
-            <div className="w-100 border m-auto"></div>
+            {!checkWork && (
+              <>
+                <div className="w-100 border m-auto"></div>
 
-            <Box display={"flex"} className="w-full my-4">
-              <Heading as="h3" size="md" minWidth={175} fontFamily="serif">
-                Experience
-              </Heading>
-              <Box marginLeft={25} width="100%">
-                <Text fontSize="sm" className="summary-text">
-                  {Object.entries(workTitles).map((element, index) => {
-                    return (
+                <Box display={"flex"} className="w-full my-4">
+                  <Heading as="h3" size="md" minWidth={175} fontFamily="serif">
+                    Experience
+                  </Heading>
+                  <Box marginLeft={25} width="100%">
+                    {Object.entries(workTitles).map((element, index) => (
                       <Box key={index} className="mt-1">
                         <Heading fontSize="md" fontFamily='serif' className="my-2">
                           {element[1]}
                         </Heading>
-                        {Object.entries(workDesc)[index] === undefined
-                          ? null
-                          : Object.entries(workDesc)
-                              [index][1].split(",")
-                              .map((element, index) => {
-                                return <p key={index}>{element}</p>;
-                              })}
+                        {Object.entries(workDesc)[index]?.[1]
+                          .split(",")
+                          .map((desc, idx) => (
+                            <Text key={idx} fontSize="sm">{desc}</Text>
+                          ))}
                       </Box>
-                    );
-                  })}
-                </Text>
-              </Box>
-            </Box> </> }
+                    ))}
+                  </Box>
+                </Box>
+              </>
+            )}
 
             <div className="w-100 border m-auto"></div>
 
@@ -109,56 +106,43 @@ const Theme3 = (props) => {
                 Education
               </Heading>
               <Box marginLeft={25} width="100%">
-                <Text fontSize="sm">
-                  {Object.entries(educationTitles).map((element, index) => {
-                    return (
-                      <Box key={index} className="mb-4">
-                        <Heading fontSize="md" fontFamily='serif'  className="mb-2">
-                          {element[1]}
-                        </Heading>
-                        {Object.entries(educationDesc)[index] === undefined
-                          ? null
-                          : Object.entries(educationDesc)
-                              [index][1].split(",")
-                              .map((element, index) => {
-                                return <p key={index}>{element}</p>;
-                              })}
-                      </Box>
-                    );
-                  })}
-                </Text>
+                {Object.entries(educationTitles).map((element, index) => (
+                  <Box key={index} className="mb-4">
+                    <Heading fontSize="md" fontFamily='serif' className="mb-2">
+                      {element[1]}
+                    </Heading>
+                    {Object.entries(educationDesc)[index]?.[1]
+                      .split(",")
+                      .map((desc, idx) => (
+                        <Text key={idx} fontSize="sm">{desc}</Text>
+                      ))}
+                  </Box>
+                ))}
               </Box>
             </Box>
 
             {!checkProj && (
               <>
-                {" "}
                 <div className="w-100 border m-auto"></div>
                 <Box display={"flex"} className="w-full my-4">
                   <Heading as="h3" size="md" minWidth={175} fontFamily="serif">
                     Projects
                   </Heading>
                   <Box marginLeft={25} width="100%">
-                    <Text fontSize="sm">
-                      {Object.entries(projectTitles).map((element, index) => {
-                        return (
-                          <Box key={index} className="mt-1">
-                            <Heading fontSize="md" fontFamily='serif' className="my-2">
-                              {element[1]}
-                            </Heading>
-                            <Box className="sub-details">
-                              {Object.entries(projectDesc)[index] === undefined
-                                ? null
-                                : Object.entries(projectDesc)
-                                    [index][1].split(",")
-                                    .map((element, index) => {
-                                      return <li key={index}>{element}</li>;
-                                    })}
-                            </Box>
-                          </Box>
-                        );
-                      })}
-                    </Text>
+                    {Object.entries(projectTitles).map((element, index) => (
+                      <Box key={index} className="mt-1">
+                        <Heading fontSize="md" fontFamily='serif' className="my-2">
+                          {element[1]}
+                        </Heading>
+                        <Box className="sub-details">
+                          {Object.entries(projectDesc)[index]?.[1]
+                            .split(",")
+                            .map((desc, idx) => (
+                              <Text key={idx} fontSize="sm">{desc}</Text>
+                            ))}
+                        </Box>
+                      </Box>
+                    ))}
                   </Box>
                 </Box>
               </>
@@ -172,69 +156,54 @@ const Theme3 = (props) => {
               </Heading>
               <Box marginLeft={25} width="100%">
                 <Grid templateColumns="repeat(2, 1fr)" gap={5}>
-                  {skill.split(",").map((item, index) => {
-                    return (
-                      <GridItem key={index}>
-                        <Box display="flex" alignItems="center">
-                          <div
-                            style={{
-                              background: "black",
-                              width: "6px",
-                              height: "6px",
-                            }}
-                          ></div>
-                          <p
-                            className="mx-1"
-                            color="gray"
-                            fontFamily="serif"
-                            key={index}
-                          >
-                            {item}
-                          </p>
-                        </Box>
-                      </GridItem>
-                    );
-                  })}
+                  {skill.split(",").map((item, index) => (
+                    <GridItem key={index}>
+                      <Box display="flex" alignItems="center">
+                        <Box
+                          bg="black"
+                          width="6px"
+                          height="6px"
+                          borderRadius="full"
+                        />
+                        <Text className="mx-1" color="gray" fontFamily="serif" fontSize="sm">
+                          {item}
+                        </Text>
+                      </Box>
+                    </GridItem>
+                  ))}
                 </Grid>
               </Box>
             </Box>
-{!checkAward && <>
-            <div className="w-100 border m-auto"></div>
+            {!checkAward && (
+              <>
+                <div className="w-100 border m-auto"></div>
 
-<Box display={"flex"} className="w-full my-4">
-  <Heading as="h3" size="md" minWidth={175} fontFamily="serif">
-    Achievement
-  </Heading>
-  <Box marginLeft={25} width="100%">
-    <Grid templateColumns="repeat(2, 1fr)" gap={5}>
-      {awards.split(",").map((item, index) => {
-        return (
-          <GridItem key={index}>
-            <Box display="flex" alignItems="center">
-              <div
-                style={{
-                  background: "black",
-                  width: "6px",
-                  height: "6px",
-                }}
-              ></div>
-              <p
-                className="mx-1"
-                color="gray"
-                fontFamily='serif'
-                key={index}
-              >
-                {item}
-              </p>
-              
-            </Box>
-          </GridItem>
-        );
-      })}
-    </Grid>
-  </Box>
-</Box>
-</>}
+                <Box display={"flex"} className="w-full my-4">
+                  <Heading as="h3" size="md" minWidth={175} fontFamily="serif">
+                    Achievement
+                  </Heading>
+                  <Box marginLeft={25} width="100%">
+                    <Grid templateColumns="repeat(2, 1fr)" gap={5}>
+                      {awards.split(",").map((item, index) => (
+                        <GridItem key={index}>
+                          <Box display="flex" alignItems="center">
+                            <Box
+                              bg="black"
+                              width="6px"
+                              height="6px"
+                              borderRadius="full"
+                            />
+                            <Text className="mx-1" color="gray" fontFamily='serif' fontSize="sm">
+                              {item}
+                            </Text>
+                          </Box>
+                        </GridItem>
+                      ))}
+                    </Grid>
+                  </Box>
+                </Box>
+              </>
+            )}
           </section>
         </section>
       </Box>
@@ -243,4 +212,3 @@ const Theme3 = (props) => {
 };
 
 export default Theme3;
-

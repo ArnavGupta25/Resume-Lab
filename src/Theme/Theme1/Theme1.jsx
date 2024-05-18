@@ -7,13 +7,14 @@ import { BsFillTelephoneFill } from 'react-icons/bs'
 import ResumeContext from '../../Context/ResumeContext'
 
 const Theme1 = (props) => {
-    const { checkProj, checkWork, checkAward } = useContext(ResumeContext)
-    const { themeData, componentRef } = props;
+    const { checkProj, checkWork, checkAward, themeData } = useContext(ResumeContext)
+    const { componentRef } = props;
     const { name, profile, address, phone, email, skill } = themeData.personalData;
     const { projectTitles, projectDesc } = themeData.projectData;
     const { educationTitles, educationDesc } = themeData.educationData;
     const { workTitles, workDesc } = themeData.workData;
     const { awards } = themeData.awardData;
+
     return (
         <>
             <Box id="section-to-print" ref={componentRef}>

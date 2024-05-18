@@ -1,20 +1,20 @@
-import { React, useContext } from 'react'
+import { React, useContext, useEffect } from 'react'
 import Introduction from '../../Components/Intro/Introduction'
 import ResumeContext from '../../Context/ResumeContext';
 import BuilderArea from '../BuilderArea';
 import Theme1 from './../../Theme/Theme1/Theme1'
 import Theme2 from './../../Theme/Theme2/Theme2'
 import Theme3 from './../../Theme/Theme3/Theme3'
-import { Helmet } from 'react-helmet';
 
 const Home = () => {
     const { currentTheme, showComponent, themeData, componentRef } = useContext(ResumeContext);
 
+    useEffect(() => {
+        document.title = 'Home - Resume Lab';
+    }, [])
+
     return (
         <>
-            <Helmet>
-                <title>Resume Lab</title>
-            </Helmet>
             {
                 !showComponent && <Introduction />
             }

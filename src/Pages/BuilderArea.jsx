@@ -7,10 +7,11 @@ import ResumeContext from '../Context/ResumeContext';
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 const BuilderArea = (props) => {
-    const { showComponent, setShowComponent, loading, handlePrint } = useContext(ResumeContext)
+    const { setShowComponent, loading, handlePrint, setSelectBtn } = useContext(ResumeContext)
 
     const handleSelectNewTemplate = () => {
-        setShowComponent(!showComponent)
+        setSelectBtn(false)
+        setShowComponent(false)
     }
 
     return (

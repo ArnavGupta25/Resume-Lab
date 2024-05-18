@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Flex, chakra, SimpleGrid, Icon, useColorModeValue, Box, Link, Heading, Text } from '@chakra-ui/react';
-import { Helmet } from 'react-helmet';
 import { FaCode, FaReact } from "react-icons/fa";
 import Footer from '../../Components/Footer/Footer'
 
 const AboutPage = () => {
+  useEffect(() => {
+    document.title = 'About Us - Resume Lab';
+  }, []);
   return (
     <>
-      <Helmet>
-        <title>About Us - Resume Lab</title>
-      </Helmet>
       <Flex
         textAlign={'center'}
         pt={10}

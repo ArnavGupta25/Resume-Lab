@@ -1,12 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './userCollectData.css'
 import { IoMdCloudUpload } from 'react-icons/io'
-import { FormControl, Input, Heading, Textarea, Button, Switch } from '@chakra-ui/react'
+import { FormControl, Input, Heading, Textarea, Button, Switch} from '@chakra-ui/react'
 import ResumeContext from '../../Context/ResumeContext'
+import { set } from 'firebase/database'
+
+
 const UserDataCollect = () => {
-
-
     const { themeData, checkAward, setCheckAward, setThemeData, checkProj, checkWork, setCheckProj, setCheckWork } = useContext(ResumeContext)
+    const [profileImage, setProfileImage] = useState(themeData.personalData.profileImage);
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setProfileImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
 
     const [projectCount, setProjectCount] = useState(0)
@@ -15,18 +28,38 @@ const UserDataCollect = () => {
     const [projArrTemplate, setProjArrTemplate] = useState([])
     const [educationArrTemplate, setEducationArrTemplate] = useState([])
     const [workArrTemplate, setWorkArrTemplate] = useState([])
-    const [projectData, setProjectData] = useState({ 'projectTitles': { pTitle1: "Project Title " }, 'projectDesc': { pDescription1: "Project Description are Shown here , with Bullet Points" } })
-    const [educationData, setEducationData] = useState({ 'educationTitles': { eTitle1: "Education Title" }, 'educationDesc': { eDescription1: "Education Description are Shown here , with Bullet Points" } })
-    const [workData, setWorkData] = useState({ 'workTitles': { wTitle1: "Work Title" }, 'workDesc': { wDescription1: "Work Description are Shown here , with Bullet Points" } })
-    const [personalData, setPersonalData] = useState({ profileImage: 'https://www.w3schools.com/howto/img_avatar.png', name: "Your Name", summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing eli', profile: "Work Profile", address: "Address Line", phone: "Phone Number", email: "Email Address", skill: 'Your, Skills, are, shown, here', })
-    const [awardData, setAwardData] = useState({ awards: 'Your Awards are shown here' })
+    const [projectData, setProjectData] = useState({ 
+        'projectTitles': themeData.projectData.projectTitles, 
+        'projectDesc': themeData.projectData.projectDesc
+    })
+    const [educationData, setEducationData] = useState({
+        'educationTitles': themeData.educationData.educationTitles,
+        'educationDesc': themeData.educationData.educationDesc
+    })
+    const [workData, setWorkData] = useState({
+        'workTitles': themeData.workData.workTitles,
+        'workDesc': themeData.workData.workDesc
+    })
+    const [personalData, setPersonalData] = useState({
+        profileImage: themeData.personalData.profileImage,
+        name: themeData.personalData.name,
+        summary: themeData.personalData.summary,
+        profile: themeData.personalData.profile,
+        address: themeData.personalData.address,
+        phone: themeData.personalData.phone,
+        email: themeData.personalData.email,
+        skill: themeData.personalData.skill,
+    })
+    const [awardData, setAwardData] = useState({
+        awards: themeData.awardData.awards
+    })
     // To Add Personal Data to the State
+    useEffect(() => {
+        setPersonalData({ ...personalData, profileImage: profileImage })
+    }, [profileImage])
     const handleChangePersonal = (e) => {
         const { name, value } = e.target
         setPersonalData({ ...personalData, [name]: value })
-        if (e.target.name === 'profileImage') {
-            setPersonalData({ ...personalData, profileImage: URL.createObjectURL(e.target.files[0]) })
-        }
     }
     // To Add Project Data to the State
     const handleChangeProject = (e) => {
@@ -130,8 +163,7 @@ const UserDataCollect = () => {
     }
     useEffect(() => {
         setThemeData({ ...themeData, personalData, projectData, educationData, workData, awardData })
-
-    }, [themeData, personalData, setThemeData, projectData, educationData, workData, awardData])
+    }, [personalData, projectData, educationData, workData, awardData, setThemeData])
 
     const handleDeleteEducation = (index) => {
         const arr = [...educationArrTemplate];
@@ -189,8 +221,8 @@ const UserDataCollect = () => {
                                 <i className="material-icons"><IoMdCloudUpload size={30} />
                                 </i>Select a file
                             </label>
-                            <input accept="image/*" name='profileImage' onChange={handleChangePersonal} id='input-file' type='file' />
-                            <img className="abc" src={personalData.profileImage} alt="your profile preview" />
+                            <input accept="image/*" name='profileImage' onChange={handleImageUpload} id='input-file' type='file' />
+                            <img className="abc" src={profileImage} alt="your profile preview" />
                         </div>
                     </FormControl>
                     <FormControl isRequired className='my-2'>
