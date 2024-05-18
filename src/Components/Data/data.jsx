@@ -158,7 +158,16 @@ export default function Data() {
                     {data && Object.keys(data).map((i, index) => {
                         const item = ThemeTemplateData.filter(item => item.id === data[i].theme)[0];
                         return (
-                            <Box key={index} p={4} mb={6} borderWidth="1px" borderRadius="md" boxShadow="md" _hover={{ boxShadow: "lg" }}>
+                            <Box
+                                key={index}
+                                p={4}
+                                mb={6}
+                                borderWidth="1px"
+                                borderRadius="md"
+                                boxShadow="md"
+                                transition="box-shadow 0.2s ease-in-out"
+                                _hover={{ boxShadow: "lg" }}
+                            >
                                 <Box
                                     className="template"
                                     onClick={showTheme}
