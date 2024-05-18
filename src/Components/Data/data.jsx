@@ -177,7 +177,13 @@ export default function Data() {
                                     borderRadius="md"
                                     overflow="hidden"
                                 >
-                                    <Image id={i} src={item.imageSrc} alt={item.imageAlt} />
+                                    <Image
+                                        id={i}
+                                        src={item.imageSrc}
+                                        alt={item.imageAlt}
+                                        transition="box-shadow 0.2s ease-in-out"
+                                        _hover={{ boxShadow: "lg" }}
+                                    />
                                 </Box>
                                 <Box className="text" textAlign="center">
                                     <chakra.h3 color={color} fontSize="lg" fontWeight="bold">{data[i].name}</chakra.h3>
